@@ -184,7 +184,7 @@ function hideBars() {
   hideTimeout = setTimeout(() => {
     topBar.style.transform = "translateY(-100%)";
     bottomBar.style.transform = "translateY(100%)";
-  }, 2000); // 2 секунды задержки
+  }, 1000); // Уменьшаем задержку до 1 секунды
 }
 
 trackListContainer.addEventListener("mouseover", showBars);

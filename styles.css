@@ -3,7 +3,7 @@ html, body {
     padding: 0;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    background-color: black; /* Чёрный фон */
+    background-color: black;
     color: black;
     overflow-x: hidden;
   }
@@ -17,29 +17,28 @@ html, body {
     z-index: 30;
     border: 2px solid white;
     box-sizing: border-box;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.6s ease-in-out;
     color: black;
     text-align: center;
     padding: 10px;
-    font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.8;
   }
   
   .top-bar {
     top: 0;
-    height: 100px;
+    height: 12vh;
     transform: translateY(-100%);
   }
   
   .bottom-bar {
     bottom: 0;
-    height: 80px;
+    height: 12vh;
     transform: translateY(100%);
   }
   
   .top-bar p, .bottom-bar p {
     margin: 0;
-    font-size: 12px;
+    font-size: 16px;
   }
   
   /* Показ полос при наведении на треки или плеер */
@@ -54,18 +53,21 @@ html, body {
   .video-section {
     position: relative;
     width: 100%;
-    height: 100vh; /* Видео на всю высоту экрана */
+    height: 100vh;
     background-color: transparent;
   }
   
   /* Растягиваем видео на весь экран */
   .video-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    transform: translate(-50%, -50%);
     overflow: hidden;
+    z-index: 1;
   }
   
   .video-section iframe {
@@ -74,7 +76,7 @@ html, body {
     display: block;
     pointer-events: none;
     border-radius: 0 !important;
-    object-fit: cover; /* Растягиваем видео, сохраняя пропорции */
+    object-fit: cover;
   }
   
   /* Поверх видео — шум и буквы */
@@ -201,13 +203,15 @@ html, body {
     color: #fff;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
+    background: transparent;
   }
   
   .left-panel {
     flex: 1;
     min-width: 200px;
     margin-right: 40px;
-    background: transparent;
+    background: transparent !important;
+    z-index: 16;
   }
   
   .album-cover {
@@ -220,6 +224,11 @@ html, body {
     list-style: none;
     padding: 0;
     margin: 0;
+    background: transparent;
+  }
+  
+  #trackList {
+    background: transparent;
   }
   
   .track-list li {
@@ -229,14 +238,15 @@ html, body {
     transition: color 0.3s;
     line-height: 1.8;
     position: relative;
+    background: transparent;
   }
   
+  /* Глитч-эффект при наведении */
   .track-list li:hover,
   .track-list li.active {
     color: red;
   }
   
-  /* Глитч-эффект при наведении */
   .track-list li:hover {
     animation: noise-anim 2s infinite linear alternate-reverse;
   }
@@ -315,12 +325,16 @@ html, body {
     min-width: 300px;
     padding: 20px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   
   .logo-title {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    width: 100%;
   }
   
   .logo-title img {
@@ -337,7 +351,10 @@ html, body {
   .player-container {
     border: 2px solid white;
     position: relative;
-    max-height: 400px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 40px;
+    margin-right: auto;
   }
   
   .tabs {
@@ -370,10 +387,9 @@ html, body {
   .tab-content {
     display: none;
     background: white;
-    padding: 10px;
-    aspect-ratio: 16 / 9;
-    max-height: 300px;
-    overflow: hidden;
+    padding: 0;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Устанавливаем фиксированное соотношение сторон */
   }
   
   .tab-content.active {
@@ -382,7 +398,7 @@ html, body {
   
   .tab-content iframe {
     width: 100%;
-    height: 100%;
+    height: 100%; /* Видео занимает всю высоту контейнера */
     border: none;
     border-radius: 0 !important;
     pointer-events: auto;
@@ -391,4 +407,9 @@ html, body {
   .tab-content p {
     color: black;
     margin: 0;
+    padding: 10px;
+    width: 100%;
+    height: 100%; /* Текст занимает всю высоту контейнера */
+    box-sizing: border-box;
+    overflow-y: auto; /* Добавляем прокрутку, если текст длинный */
   }
