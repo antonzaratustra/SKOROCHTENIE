@@ -609,3 +609,21 @@ html, body {
     transform: translateX(-100%);
   }
 }
+
+
+/* Стили для падающих букв */
+.falling-letter {
+    position: absolute;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: black;
+    pointer-events: none; /* Чтобы буквы не мешали взаимодействию с текстом */
+    z-index: 10;
+  }
+
+  /* Добавляем в конец styles.css */
+#lyrics {
+    position: relative;
+    overflow: hidden; /* Ограничиваем влияние падающих букв */
+  }
