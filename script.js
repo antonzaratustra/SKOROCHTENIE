@@ -161,12 +161,29 @@ whiteNoiseContainers.forEach(function () {
 const trackList = document.querySelectorAll("#trackList li");
 const videoPlayer = document.getElementById("videoPlayer");
 const lyricsText = document.getElementById("lyricsText");
+const trackTitle = document.getElementById("trackTitle"); // Элемент для названия трека
 const tabs = document.querySelectorAll(".tab-btn");
 const contents = document.querySelectorAll(".tab-content");
 const topBar = document.querySelector(".top-bar");
 const bottomBar = document.querySelector(".bottom-bar");
 const trackListContainer = document.querySelector(".track-list");
 const playerContainer = document.querySelector(".player-container");
+
+// Сбрасываем воспроизведение фонового видео при загрузке страницы
+window.addEventListener('load', () => {
+  const backgroundVideo = document.querySelector('.video-wrapper iframe');
+  if (backgroundVideo) {
+    const src = backgroundVideo.src;
+    backgroundVideo.src = '';
+    backgroundVideo.src = src;
+  }
+
+  // Устанавливаем начальное название трека при загрузке страницы
+  const activeTrack = document.querySelector("#trackList li.active");
+  if (activeTrack && trackTitle) {
+    trackTitle.textContent = activeTrack.getAttribute("data-text").toUpperCase();
+  }
+});
 
 // Инициализация Matter.js для физики
 const Engine = Matter.Engine;
@@ -177,7 +194,7 @@ const engine = Engine.create();
 const world = engine.world;
 
 // Настройка физического мира
-engine.world.gravity.y = 1; // Гравитация
+engine.world.gravity.y = 1;
 
 // Создаём "пол" для контейнера с текстом
 let ground;
@@ -189,7 +206,6 @@ function setupPhysics() {
   const lyricsContainer = document.querySelector('#lyrics');
   const containerRect = lyricsContainer.getBoundingClientRect();
 
-  // Удаляем старые границы и буквы, если они есть
   if (ground) {
     World.remove(world, ground);
     boundaries.forEach(boundary => World.remove(world, boundary));
@@ -202,16 +218,14 @@ function setupPhysics() {
     letters = [];
   }
 
-  // Создаём пол
   ground = Bodies.rectangle(
     containerRect.left + containerRect.width / 2,
-    containerRect.bottom - 10, // Пол чуть выше нижней границы контейнера
+    containerRect.bottom - 10,
     containerRect.width,
     10,
     { isStatic: true }
   );
 
-  // Создаём стены (левая и правая)
   const leftWall = Bodies.rectangle(
     containerRect.left,
     containerRect.top + containerRect.height / 2,
@@ -231,7 +245,6 @@ function setupPhysics() {
   boundaries = [ground, leftWall, rightWall];
   World.add(world, boundaries);
 
-  // Запускаем движок
   Engine.run(engine);
 }
 
@@ -239,16 +252,16 @@ function setupPhysics() {
 function splitTextIntoSpans() {
   const text = lyricsText.textContent;
   lyricsText.innerHTML = '';
-  const lines = text.split('\n'); // Разбиваем текст на строки
+  const lines = text.split('\n');
 
   lines.forEach((line, lineIndex) => {
     if (lineIndex > 0) {
-      lyricsText.appendChild(document.createElement('br')); // Добавляем перенос строки
+      lyricsText.appendChild(document.createElement('br'));
     }
     line.split('').forEach((char, charIndex) => {
       const span = document.createElement('span');
       span.textContent = char;
-      span.dataset.index = `${lineIndex}-${charIndex}`; // Уникальный индекс для каждой буквы
+      span.dataset.index = `${lineIndex}-${charIndex}`;
       span.classList.add('letter-span');
       lyricsText.appendChild(span);
     });
@@ -260,7 +273,6 @@ function createFallingLetter(char, x, y) {
   const lyricsContainer = document.querySelector('#lyrics');
   const containerRect = lyricsContainer.getBoundingClientRect();
 
-  // Создаём DOM-элемент для буквы
   const letterDiv = document.createElement('div');
   letterDiv.classList.add('falling-letter');
   letterDiv.textContent = char;
@@ -268,42 +280,57 @@ function createFallingLetter(char, x, y) {
   letterDiv.style.top = `${y - containerRect.top}px`;
   lyricsContainer.appendChild(letterDiv);
 
-  // Создаём физическое тело
   const letterBody = Bodies.rectangle(
     x,
     y,
     16,
     16,
     {
-      restitution: 0.5, // Упругость (чтобы буквы немного отскакивали)
+      restitution: 0.5,
       friction: 0.1,
       frictionAir: 0.01,
-      render: { visible: false } // Matter.js не рендерит, используем DOM
+      render: { visible: false }
     }
   );
 
   World.add(world, letterBody);
-  letters.push({ body: letterBody, element: letterDiv });
+  const letterObj = { body: letterBody, element: letterDiv, createdAt: Date.now() };
+  letters.push(letterObj);
 
-  // Обновляем позицию DOM-элемента в соответствии с физическим телом
+  setTimeout(() => {
+    if (letterBody) {
+      Matter.Body.setStatic(letterBody, true);
+    }
+  }, 1000);
+
+  setTimeout(() => {
+    const index = letters.indexOf(letterObj);
+    if (index !== -1) {
+      World.remove(world, letterBody);
+      if (letterDiv.parentNode) {
+        letterDiv.parentNode.removeChild(letterDiv);
+      }
+      letters.splice(index, 1);
+    }
+  }, 3000);
+
   Matter.Events.on(engine, 'afterUpdate', () => {
     letters = letters.filter(letter => {
       const pos = letter.body.position;
       const containerBottom = containerRect.bottom;
 
-      // Удаляем буквы, которые вышли за пределы контейнера (на всякий случай)
       if (pos.y > containerBottom + 50) {
         World.remove(world, letter.body);
         if (letter.element.parentNode) {
           letter.element.parentNode.removeChild(letter.element);
         }
-        return false; // Удаляем из массива
+        return false;
       }
 
-      letter.element.style.left = `${pos.x - containerRect.left - 8}px`; // Центрируем букву
+      letter.element.style.left = `${pos.x - containerRect.left - 8}px`;
       letter.element.style.top = `${pos.y - containerRect.top - 8}px`;
-      letter.element.style.transform = `rotate(${letter.body.angle}rad)`; // Поворот
-      return true; // Оставляем в массиве
+      letter.element.style.transform = `rotate(${letter.body.angle}rad)`;
+      return true;
     });
   });
 }
@@ -311,27 +338,23 @@ function createFallingLetter(char, x, y) {
 // Функция для выбора случайной буквы и её "падения"
 function dropRandomLetter() {
   const lyricsContainer = document.querySelector('#lyrics');
-  if (!lyricsContainer.classList.contains('active')) return; // Проверяем, что вкладка "Текст" активна
+  if (!lyricsContainer.classList.contains('active')) return;
 
   const spans = lyricsText.querySelectorAll('.letter-span:not(.dropped)');
-  if (spans.length === 0) return; // Если все буквы уже упали
+  if (spans.length === 0) return;
 
   const randomSpan = spans[Math.floor(Math.random() * spans.length)];
   const char = randomSpan.textContent;
 
-  // Проверяем, что символ — это буква или цифра
   if (!/[a-zA-Zа-яА-Я0-9]/.test(char)) return;
 
-  // Заменяем букву на белый цвет
   randomSpan.style.color = 'white';
   randomSpan.classList.add('dropped');
 
-  // Получаем позицию буквы
   const rect = randomSpan.getBoundingClientRect();
   const x = rect.left + rect.width / 2;
   const y = rect.top + rect.height / 2;
 
-  // Создаём падающую букву
   createFallingLetter(char, x, y);
 }
 
@@ -381,11 +404,23 @@ trackList.forEach(item => {
 
     const videoSrc = item.getAttribute("data-video");
     const lyricsId = item.getAttribute("data-lyrics-id");
+    const trackName = item.getAttribute("data-text"); // Получаем название трека
 
     videoPlayer.src = videoSrc;
     lyricsText.innerHTML = lyrics[lyricsId] || "Текст не найден";
     splitTextIntoSpans();
-    setupPhysics(); // Перезапускаем физику при смене трека
+    setupPhysics();
+
+    // Обновляем название трека
+    if (trackTitle) {
+      trackTitle.textContent = trackName.toUpperCase();
+    }
+
+    // Сбрасываем прокрутку текста в начало
+    const lyricsContainer = document.querySelector('#lyrics p');
+    if (lyricsContainer) {
+      lyricsContainer.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   });
 });
 
@@ -400,7 +435,11 @@ tabs.forEach(tab => {
     target.classList.add("active");
 
     if (tab.dataset.tab === 'lyrics') {
-      setupPhysics(); // Перезапускаем физику при открытии вкладки "Текст"
+      setupPhysics();
+      const lyricsContainer = document.querySelector('#lyrics p');
+      if (lyricsContainer) {
+        lyricsContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   });
 });
@@ -413,7 +452,7 @@ document.querySelectorAll('.scroll-btn').forEach(button => {
     const scrollable = parent.querySelector('.track-list') || parent.querySelector('p');
     
     if (scrollable) {
-      const scrollAmount = 100; // Прокрутка на 100px за раз
+      const scrollAmount = 100;
       if (direction === 'up') {
         scrollable.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
       } else {
@@ -431,7 +470,6 @@ function updateScrollButtons(scrollable, upButton, downButton, wrapper = null) {
   upButton.disabled = isAtTop;
   downButton.disabled = isAtBottom;
 
-  // Обновление кастомной полосы прокрутки (для .track-list)
   if (wrapper) {
     const canScroll = scrollable.scrollHeight > scrollable.clientHeight;
     const scrollbar = wrapper.querySelector('.custom-scrollbar') || document.createElement('div');
@@ -440,7 +478,6 @@ function updateScrollButtons(scrollable, upButton, downButton, wrapper = null) {
     if (canScroll) {
       wrapper.classList.add('can-scroll');
       
-      // Вычисляем высоту и позицию полосы прокрутки
       const scrollHeight = scrollable.scrollHeight;
       const clientHeight = scrollable.clientHeight;
       const scrollTop = scrollable.scrollTop;
@@ -450,7 +487,6 @@ function updateScrollButtons(scrollable, upButton, downButton, wrapper = null) {
       const scrollRatio = scrollTop / (scrollHeight - clientHeight);
       const thumbTop = scrollRatio * maxTop;
 
-      // Применяем стили напрямую
       scrollbar.style.height = `${thumbHeight}px`;
       scrollbar.style.top = `${thumbTop}px`;
       scrollbar.style.position = 'absolute';
@@ -480,12 +516,11 @@ if (lyricsContainer) {
   
   lyricsContainer.addEventListener('scroll', () => {
     updateScrollButtons(lyricsContainer, upButtonLyrics, downButtonLyrics);
-    // Прокрутка вызывает падение букв
-    if (Math.random() < 0.5) { // Вероятность 50% на каждом скролле
+    if (Math.random() < 0.1) {
       dropRandomLetter();
     }
   });
-  updateScrollButtons(lyricsContainer, upButtonLyrics, downButtonLyrics); // Инициализация
+  updateScrollButtons(lyricsContainer, upButtonLyrics, downButtonLyrics);
 }
 
 // Применяем для списка треков
@@ -499,24 +534,21 @@ if (trackListScrollable) {
     updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
   });
 
-  // Инициализация
   updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
 
-  // Дополнительная проверка при загрузке
   window.addEventListener('load', () => {
     updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
   });
 
-  // Проверка при изменении размера окна
   window.addEventListener('resize', () => {
     updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
-    setupPhysics(); // Перезапускаем физику при изменении размера окна
+    setupPhysics();
   });
 }
 
 // Добавляем эффект падения букв при движении мыши
 playerContainer.addEventListener('mousemove', () => {
-  if (Math.random() < 0.05) { // Вероятность 5% на каждом движении мыши
+  if (Math.random() < 0.05) {
     dropRandomLetter();
   }
 });

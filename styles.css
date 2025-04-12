@@ -1,629 +1,617 @@
 html, body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 700;
-  background-color: black;
-  color: black;
-  overflow-x: hidden;
-}
-
-/* Верхняя и нижняя полоса */
-.top-bar, .bottom-bar {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  background: white;
-  z-index: 30;
-  border: 2px solid white;
-  box-sizing: border-box;
-  transition: transform 0.6s ease-in-out;
-  color: black;
-  text-align: center;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.top-bar {
-  top: 0;
-  height: 12vh;
-  transform: translateY(-100%);
-}
-
-.bottom-bar {
-  bottom: 0;
-  height: 12vh;
-  transform: translateY(100%);
-}
-
-.top-bar p, .bottom-bar p {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.2;
-  max-width: 600px;
-}
-
-/* Показ полос при наведении на треки или плеер */
-.track-list:hover ~ .top-bar,
-.track-list:hover ~ .bottom-bar,
-.player-container:hover ~ .top-bar,
-.player-container:hover ~ .bottom-bar {
-  transform: translateY(0);
-}
-
-/* Контейнер с видео */
-.video-section {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-}
-
-/* Растягиваем видео на весь экран */
-.video-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100vw;
-  min-width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-  transform: translate(-50%, -50%);
-  overflow: hidden;
-  z-index: 1;
-}
-
-.video-section iframe {
-  width: 100%;
-  height: 100%;
-  display: block;
-  pointer-events: none;
-  border-radius: 0 !important;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* Поверх видео — шум и буквы */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 20;
-}
-
-.white-noise {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
-.white-noise > *,
-.white-noise,
-.white-noise:after,
-.white-noise:before {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-}
-
-.white-noise:after,
-.white-noise:before {
-  content: '';
-  position: absolute;
-}
-
-.white-noise {
-  animation: shift 3s linear infinite;
-}
-
-.white-noise:after {
-  animation: shift 1s linear infinite reverse;
-}
-
-.white-noise:before {
-  animation: shift 2s linear infinite;
-}
-
-@keyframes shift {
-  0% {
-    background-position: 0% 0%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    background-color: black;
+    color: black;
+    overflow-x: hidden;
   }
-  10% {
-    background-position: 8% 4%;
+  
+  /* Верхняя и нижняя полоса */
+  .top-bar, .bottom-bar {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    background: white;
+    z-index: 30;
+    border: 2px solid white;
+    box-sizing: border-box;
+    transition: transform 0.6s ease-in-out;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  20% {
-    background-position: 16% 8%;
+  
+  .top-bar {
+    top: 0;
+    height: 12vh;
+    transform: translateY(-100%);
   }
-  30% {
-    background-position: 24% 12%;
+  
+  .bottom-bar {
+    bottom: 0;
+    height: 12vh;
+    transform: translateY(100%);
   }
-  40% {
-    background-position: 32% 16%;
+  
+  .top-bar p, .bottom-bar p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.2;
+    max-width: 600px;
   }
-  50% {
-    background-position: -4% -2%;
+  
+  /* Показ полос при наведении на треки или плеер */
+  .track-list:hover ~ .top-bar,
+  .track-list:hover ~ .bottom-bar,
+  .player-container:hover ~ .top-bar,
+  .player-container:hover ~ .bottom-bar {
+    transform: translateY(0);
   }
-  60% {
-    background-position: -12% -6%;
+  
+  /* Контейнер с видео */
+  .video-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
   }
-  70% {
-    background-position: -20% -10%;
+  
+  /* Растягиваем видео на весь экран */
+  .video-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    min-width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    z-index: 1;
   }
-  80% {
-    background-position: -28% -14%;
+  
+  .video-section iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    border-radius: 0 !important;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
-  90% {
-    background-position: -36% -18%;
+  
+  /* Поверх видео — шум и буквы */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
   }
-  100% {
-    background-position: 0% 0%;
+  
+  .white-noise {
+    position: absolute;
+    height: 100%;
+    width: 100%;
   }
-}
-
-.letter-grid {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 4vw;
-  font-weight: bold;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 12vw;
-  text-align: center;
-  z-index: 25;
-}
-
-.letter-grid span {
-  animation: flicker 1.5s infinite ease-in-out alternate;
-}
-
-.letter-grid span:nth-child(odd) {
-  animation-delay: 0.75s;
-}
-
-@keyframes flicker {
-  0% { opacity: 0.1; color: white; }
-  50% { opacity: 0.3; color: black; }
-  100% { opacity: 0.2; color: white; }
-}
-
-/* UI поверх видео */
-.overlay-ui {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  padding: 40px;
-  box-sizing: border-box;
-  z-index: 15;
-  color: #fff;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 700;
-  background: transparent;
-}
-
-.left-panel {
-  flex: 1;
-  min-width: 200px;
-  margin-right: 40px;
-  background: transparent !important;
-  z-index: 16;
-  display: flex;
-  flex-direction: column;
-}
-
-.album-cover {
-  width: 100%;
-  max-width: 250px;
-  margin-bottom: 20px;
-}
-
-.track-list-wrapper {
-  position: relative;
-  max-height: calc(100vh - 12vh - 5vh - 250px - 40px);
-}
-
-.track-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  max-height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  position: relative;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.track-list::-webkit-scrollbar {
-  display: none;
-}
-
-/* Кастомная полоса прокрутки слева */
-.track-list-wrapper {
-  position: relative;
-}
-
-.custom-scrollbar {
-  position: absolute;
-  left: 0;
-  width: 6px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 3px;
-  z-index: 10;
-  pointer-events: none;
-  transition: background 0.3s;
-}
-
-.track-list-wrapper:hover .custom-scrollbar {
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.track-list li {
-  padding: 10px 0;
-  padding-left: 20px;
-  cursor: pointer;
-  color: white;
-  transition: color 0.3s;
-  line-height: 1.8;
-  position: relative;
-  background: transparent;
-  text-align: left;
-}
-
-#trackList {
-  background: transparent;
-}
-
-/* Стили для кнопок прокрутки (текстовые стрелки) */
-.scroll-btn {
-  position: absolute;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 20;
-  transition: opacity 0.3s;
-  font-size: 8px; /* Очень маленький размер */
-  line-height: 1;
-  padding: 0;
-  color: rgba(255, 255, 255, 0.5); /* Для треков */
-}
-
-.scroll-btn:hover {
-  opacity: 0.8;
-}
-
-.scroll-btn:disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-}
-
-/* Стрелки для списка треков (слева) */
-.track-list-wrapper .scroll-btn {
-  left: 0;
-}
-
-.track-list-wrapper .scroll-up {
-  top: 0;
-}
-
-.track-list-wrapper .scroll-down {
-  bottom: 0;
-}
-
-/* Стрелки для текстов песен (справа) */
-.tab-content .scroll-btn {
-  right: 0;
-  color: rgba(0, 0, 0, 0.5); /* Для текстов песен */
-}
-
-.tab-content .scroll-up {
-  top: 0;
-}
-
-.tab-content .scroll-down {
-  bottom: 0;
-}
-
-/* Глитч-эффект при наведении */
-.track-list li:hover,
-.track-list li.active {
-  color: red;
-}
-
-.track-list li:hover {
-  animation: noise-anim 2s infinite linear alternate-reverse;
-}
-
-.track-list li:hover:before,
-.track-list li:hover:after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  color: white;
-  overflow: hidden;
-}
-
-.track-list li:hover:before {
-  left: -2px;
-  text-shadow: 1px 0 blue;
-  animation: noise-anim-2 3s infinite linear alternate-reverse;
-}
-
-.track-list li:hover:after {
-  left: 2px;
-  text-shadow: -1px 0 red;
-  animation: noise-anim 2s infinite linear alternate-reverse;
-}
-
-@keyframes noise-anim {
-  0% { clip: rect(45px, 9999px, 72px, 0); }
-  5% { clip: rect(12px, 9999px, 34px, 0); }
-  10% { clip: rect(78px, 9999px, 19px, 0); }
-  15% { clip: rect(56px, 9999px, 91px, 0); }
-  20% { clip: rect(23px, 9999px, 67px, 0); }
-  25% { clip: rect(89px, 9999px, 43px, 0); }
-  30% { clip: rect(31px, 9999px, 85px, 0); }
-  35% { clip: rect(64px, 9999px, 28px, 0); }
-  40% { clip: rect(47px, 9999px, 93px, 0); }
-  45% { clip: rect(15px, 9999px, 59px, 0); }
-  50% { clip: rect(82px, 9999px, 36px, 0); }
-  55% { clip: rect(29px, 9999px, 74px, 0); }
-  60% { clip: rect(61px, 9999px, 17px, 0); }
-  65% { clip: rect(94px, 9999px, 42px, 0); }
-  70% { clip: rect(38px, 9999px, 86px, 0); }
-  75% { clip: rect(73px, 9999px, 24px, 0); }
-  80% { clip: rect(46px, 9999px, 68px, 0); }
-  85% { clip: rect(19px, 9999px, 53px, 0); }
-  90% { clip: rect(87px, 9999px, 31px, 0); }
-  95% { clip: rect(54px, 9999px, 76px, 0); }
-  100% { clip: rect(27px, 9999px, 49px, 0); }
-}
-
-@keyframes noise-anim-2 {
-  0% { clip: rect(32px, 9999px, 88px, 0); }
-  5% { clip: rect(65px, 9999px, 14px, 0); }
-  10% { clip: rect(97px, 9999px, 41px, 0); }
-  15% { clip: rect(24px, 9999px, 79px, 0); }
-  20% { clip: rect(58px, 9999px, 33px, 0); }
-  25% { clip: rect(81px, 9999px, 66px, 0); }
-  30% { clip: rect(16px, 9999px, 92px, 0); }
-  35% { clip: rect(43px, 9999px, 27px, 0); }
-  40% { clip: rect(75px, 9999px, 52px, 0); }
-  45% { clip: rect(38px, 9999px, 84px, 0); }
-  50% { clip: rect(63px, 9999px, 19px, 0); }
-  55% { clip: rect(96px, 9999px, 44px, 0); }
-  60% { clip: rect(21px, 9999px, 77px, 0); }
-  65% { clip: rect(54px, 9999px, 29px, 0); }
-  70% { clip: rect(86px, 9999px, 62px, 0); }
-  75% { clip: rect(13px, 9999px, 95px, 0); }
-  80% { clip: rect(48px, 9999px, 23px, 0); }
-  85% { clip: rect(71px, 9999px, 56px, 0); }
-  90% { clip: rect(35px, 9999px, 89px, 0); }
-  95% { clip: rect(67px, 9999px, 42px, 0); }
-  100% { clip: rect(18px, 9999px, 74px, 0); }
-}
-
-.right-panel {
-  flex: 3;
-  min-width: 300px;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.logo-title {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.logo-title img {
-  width: 300px;
-  margin-right: 20px;
-}
-
-.logo-title h1 {
-  font-size: 72px;
-  color: white;
-  margin: 0;
-}
-
-.player-container {
-  border: 2px solid white;
-  position: relative;
-  width: 100%;
-  max-width: 800px;
-  margin-top: 40px;
-  margin-right: auto;
-}
-
-/* Белые риски в окне плеера */
-.player-container::before,
-.player-container::after {
-  content: '';
-  position: absolute;
-  background: white;
-  z-index: 5;
-}
-
-.player-container::before {
-  top: 10px;
-  left: 10px;
-  width: 20px;
-  height: 2px;
-}
-
-.player-container::after {
-  top: 10px;
-  left: 10px;
-  width: 2px;
-  height: 20px;
-}
-
-/* Дополнительные риски для нижнего правого угла */
-.player-container > .tabs::before,
-.player-container > .tabs::after {
-  content: '';
-  position: absolute;
-  background: white;
-  z-index: 5;
-}
-
-.player-container > .tabs::before {
-  bottom: 10px;
-  right: 10px;
-  width: 20px;
-  height: 2px;
-}
-
-.player-container > .tabs::after {
-  bottom: 10px;
-  right: 10px;
-  width: 2px;
-  height: 20px;
-}
-
-.tabs {
-  display: flex;
-  justify-content: space-between;
-  background: white;
-  padding: 10px;
-  border-bottom: 2px solid white;
-  position: relative;
-}
-
-.tab-btn {
-  background: none;
-  border: none;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-  transition: color 0.3s;
-  text-transform: uppercase;
-  font-size: 18px;
-}
-
-.tab-btn:hover {
-  color: red;
-}
-
-.tab-btn.active {
-  color: red;
-}
-
-.tab-content {
-  display: none;
-  background: white;
-  padding: 0;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  position: relative;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-.tab-content iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 0 !important;
-  pointer-events: auto;
-}
-
-.tab-content p {
-  color: black;
-  margin: 0;
-  padding: 10px 20px;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  overflow-y: auto;
-  text-align: center;
-}
-
-/* Стандартная полоса прокрутки для текстов песен (справа) */
-.tab-content p::-webkit-scrollbar {
-  width: 6px;
-}
-
-.tab-content p::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.tab-content p::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 3px;
-}
-
-.tab-content p::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.8);
-}
-
-/* Бегущая строка */
-.marquee {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: transparent;
-  color: white;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  z-index: 10;
-  padding: 5px 0;
-}
-
-.marquee span {
-  display: inline-block;
-  padding-left: 100%;
-  font-size: 72px;
-  animation: marquee 30s linear infinite;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
+  
+  .white-noise > *,
+  .white-noise,
+  .white-noise:after,
+  .white-noise:before {
+    height: 100%;
+    width: 100%;
+    position: absolute;
   }
-  100% {
-    transform: translateX(-100%);
+  
+  .white-noise:after,
+  .white-noise:before {
+    content: '';
+    position: absolute;
   }
-}
-
-
-/* Стили для падающих букв */
-.falling-letter {
+  
+  .white-noise {
+    animation: shift 3s linear infinite;
+  }
+  
+  .white-noise:after {
+    animation: shift 1s linear infinite reverse;
+  }
+  
+  .white-noise:before {
+    animation: shift 2s linear infinite;
+  }
+  
+  @keyframes shift {
+    0% { background-position: 0% 0%; }
+    10% { background-position: 8% 4%; }
+    20% { background-position: 16% 8%; }
+    30% { background-position: 24% 12%; }
+    40% { background-position: 32% 16%; }
+    50% { background-position: -4% -2%; }
+    60% { background-position: -12% -6%; }
+    70% { background-position: -20% -10%; }
+    80% { background-position: -28% -14%; }
+    90% { background-position: -36% -18%; }
+    100% { background-position: 0% 0%; }
+  }
+  
+  .letter-grid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4vw;
+    font-weight: bold;
+    display: none; /* Скрыт по умолчанию */
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12vw;
+    text-align: center;
+    z-index: 25;
+  }
+  
+  .letter-grid span {
+    animation: flicker 1.5s infinite ease-in-out alternate;
+  }
+  
+  .letter-grid span:nth-child(odd) {
+    animation-delay: 0.75s;
+  }
+  
+  @keyframes flicker {
+    0% { opacity: 0.1; color: white; }
+    50% { opacity: 0.3; color: black; }
+    100% { opacity: 0.2; color: white; }
+  }
+  
+  /* UI поверх видео */
+  .overlay-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 40px;
+    box-sizing: border-box;
+    z-index: 15;
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    background: transparent;
+  }
+  
+  .left-panel {
+    flex: 1;
+    min-width: 200px;
+    margin-right: 40px;
+    background: transparent !important;
+    z-index: 16;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .album-cover {
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 20px;
+  }
+  
+  .track-list-wrapper {
+    position: relative;
+    max-height: calc(100vh - 12vh - 5vh - 250px - 40px);
+  }
+  
+  .track-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .track-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Кастомная полоса прокрутки слева */
+  .track-list-wrapper {
+    position: relative;
+  }
+  
+  .custom-scrollbar {
+    position: absolute;
+    left: 0;
+    width: 6px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    z-index: 10;
+    pointer-events: none;
+    transition: background 0.3s;
+  }
+  
+  .track-list-wrapper:hover .custom-scrollbar {
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  .track-list li {
+    padding: 10px 0;
+    padding-left: 20px;
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s;
+    line-height: 1.8;
+    position: relative;
+    background: transparent;
+    text-align: left;
+  }
+  
+  #trackList {
+    background: transparent;
+  }
+  
+  /* Стили для кнопок прокрутки (текстовые стрелки) */
+  .scroll-btn {
+    position: absolute;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 20;
+    transition: opacity 0.3s;
+    font-size: 8px;
+    line-height: 1;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .scroll-btn:hover {
+    opacity: 0.8;
+  }
+  
+  .scroll-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+  
+  /* Стрелки для списка треков (слева) */
+  .track-list-wrapper .scroll-btn {
+    left: 0;
+  }
+  
+  .track-list-wrapper .scroll-up {
+    top: 0;
+  }
+  
+  .track-list-wrapper .scroll-down {
+    bottom: 0;
+  }
+  
+  /* Стрелки для текстов песен (справа) */
+  .tab-content .scroll-btn {
+    right: 0;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .tab-content .scroll-up {
+    top: 0;
+  }
+  
+  .tab-content .scroll-down {
+    bottom: 0;
+  }
+  
+  /* Глитч-эффект при наведении */
+  .track-list li:hover,
+  .track-list li.active {
+    color: red;
+  }
+  
+  .track-list li:hover {
+    animation: noise-anim 2s infinite linear alternate-reverse;
+  }
+  
+  .track-list li:hover:before,
+  .track-list li:hover:after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    color: white;
+    overflow: hidden;
+  }
+  
+  .track-list li:hover:before {
+    left: -2px;
+    text-shadow: 1px 0 blue;
+    animation: noise-anim-2 3s infinite linear alternate-reverse;
+  }
+  
+  .track-list li:hover:after {
+    left: 2px;
+    text-shadow: -1px 0 red;
+    animation: noise-anim 2s infinite linear alternate-reverse;
+  }
+  
+  @keyframes noise-anim {
+    0% { clip: rect(45px, 9999px, 72px, 0); }
+    5% { clip: rect(12px, 9999px, 34px, 0); }
+    10% { clip: rect(78px, 9999px, 19px, 0); }
+    15% { clip: rect(56px, 9999px, 91px, 0); }
+    20% { clip: rect(23px, 9999px, 67px, 0); }
+    25% { clip: rect(89px, 9999px, 43px, 0); }
+    30% { clip: rect(31px, 9999px, 85px, 0); }
+    35% { clip: rect(64px, 9999px, 28px, 0); }
+    40% { clip: rect(47px, 9999px, 93px, 0); }
+    45% { clip: rect(15px, 9999px, 59px, 0); }
+    50% { clip: rect(82px, 9999px, 36px, 0); }
+    55% { clip: rect(29px, 9999px, 74px, 0); }
+    60% { clip: rect(61px, 9999px, 17px, 0); }
+    65% { clip: rect(94px, 9999px, 42px, 0); }
+    70% { clip: rect(38px, 9999px, 86px, 0); }
+    75% { clip: rect(73px, 9999px, 24px, 0); }
+    80% { clip: rect(46px, 9999px, 68px, 0); }
+    85% { clip: rect(19px, 9999px, 53px, 0); }
+    90% { clip: rect(87px, 9999px, 31px, 0); }
+    95% { clip: rect(54px, 9999px, 76px, 0); }
+    100% { clip: rect(27px, 9999px, 49px, 0); }
+  }
+  
+  @keyframes noise-anim-2 {
+    0% { clip: rect(32px, 9999px, 88px, 0); }
+    5% { clip: rect(65px, 9999px, 14px, 0); }
+    10% { clip: rect(97px, 9999px, 41px, 0); }
+    15% { clip: rect(24px, 9999px, 79px, 0); }
+    20% { clip: rect(58px, 9999px, 33px, 0); }
+    25% { clip: rect(81px, 9999px, 66px, 0); }
+    30% { clip: rect(16px, 9999px, 92px, 0); }
+    35% { clip: rect(43px, 9999px, 27px, 0); }
+    40% { clip: rect(75px, 9999px, 52px, 0); }
+    45% { clip: rect(38px, 9999px, 84px, 0); }
+    50% { clip: rect(63px, 9999px, 19px, 0); }
+    55% { clip: rect(96px, 9999px, 44px, 0); }
+    60% { clip: rect(21px, 9999px, 77px, 0); }
+    65% { clip: rect(54px, 9999px, 29px, 0); }
+    70% { clip: rect(86px, 9999px, 62px, 0); }
+    75% { clip: rect(13px, 9999px, 95px, 0); }
+    80% { clip: rect(48px, 9999px, 23px, 0); }
+    85% { clip: rect(71px, 9999px, 56px, 0); }
+    90% { clip: rect(35px, 9999px, 89px, 0); }
+    95% { clip: rect(67px, 9999px, 42px, 0); }
+    100% { clip: rect(18px, 9999px, 74px, 0); }
+  }
+  
+  /* Центрируем .right-panel */
+  .right-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 16; /* Чтобы быть выше фона и шума */
+  }
+  
+  .logo-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .logo-title img {
+    width: 300px;
+    margin-right: 20px;
+  }
+  
+  .logo-title h1 {
+    font-size: 72px;
+    color: white;
+    margin: 0;
+  }
+  
+  .player-container {
+    width: 100%;
+    max-width: 640px;
+    margin: 0;
+    position: relative;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 640px;
+    margin: 0;
+    padding: 10px 0;
+    background: white;
+    border-bottom: 2px solid white;
+    position: relative;
+  }
+  
+  .tab-btn {
+    background: none;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    text-transform: uppercase;
+    font-size: 18px;
+  }
+  
+  .tab-btn:hover {
+    color: red;
+  }
+  
+  .tab-btn.active {
+    color: red;
+  }
+  
+  .track-title {
+    flex: 1;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: black; /* Текст названия трека чёрный */
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .tab-content {
+    display: none;
+    background: white;
+    padding: 0;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    position: relative;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  .tab-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0 !important;
+    pointer-events: auto;
+  }
+  
+  /* Белый бордер для плеера */
+  #video,
+  #lyrics {
+    border: 1px solid white;
+    width: 100%;
+    max-width: 640px;
+    box-sizing: border-box;
+  }
+  
+  /* Метки в центре окна плеера на вкладке "ВИДЕО" */
+  #video {
+    position: relative;
+  }
+  
+  #video::before,
+  #video::after {
+    content: '';
+    position: absolute;
+    background: white;
+    z-index: 5;
+  }
+  
+  #video::before {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+  }
+  
+  #video::after {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+  }
+  
+  #lyrics {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .tab-content p {
+    color: black;
+    margin: 0;
+    padding: 10px 20px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    text-align: center;
+  }
+  
+  /* Стандартная полоса прокрутки для текстов песен (справа) */
+  .tab-content p::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .tab-content p::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .tab-content p::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+  }
+  
+  .tab-content p::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Бегущая строка */
+  .marquee {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: transparent;
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: 10;
+    padding: 5px 0;
+  }
+  
+  .marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    font-size: 72px;
+    animation: marquee 30s linear infinite;
+  }
+  
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  /* Стили для падающих букв */
+  .falling-letter {
     position: absolute;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
     font-size: 16px;
     color: black;
-    pointer-events: none; /* Чтобы буквы не мешали взаимодействию с текстом */
+    pointer-events: none;
     z-index: 10;
-  }
-
-  /* Добавляем в конец styles.css */
-#lyrics {
-    position: relative;
-    overflow: hidden; /* Ограничиваем влияние падающих букв */
   }
