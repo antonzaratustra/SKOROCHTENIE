@@ -184,7 +184,7 @@ function hideBars() {
   hideTimeout = setTimeout(() => {
     topBar.style.transform = "translateY(-100%)";
     bottomBar.style.transform = "translateY(100%)";
-  }, 1000); // Уменьшаем задержку до 1 секунды
+  }, 1000);
 }
 
 trackListContainer.addEventListener("mouseover", showBars);
@@ -233,3 +233,107 @@ tabs.forEach(tab => {
     target.classList.add("active");
   });
 });
+
+// Логика для стрелок прокрутки
+document.querySelectorAll('.scroll-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const direction = button.dataset.scroll;
+    const parent = button.parentElement;
+    const scrollable = parent.querySelector('.track-list') || parent.querySelector('p');
+    
+    if (scrollable) {
+      const scrollAmount = 100; // Прокрутка на 100px за раз
+      if (direction === 'up') {
+        scrollable.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+      } else {
+        scrollable.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+      }
+    }
+  });
+});
+
+// Обновление состояния стрелок и кастомной полосы прокрутки
+function updateScrollButtons(scrollable, upButton, downButton, wrapper = null) {
+  const isAtTop = scrollable.scrollTop === 0;
+  const isAtBottom = scrollable.scrollHeight - scrollable.scrollTop <= scrollable.clientHeight + 1;
+
+  upButton.disabled = isAtTop;
+  downButton.disabled = isAtBottom;
+
+  // Обновление кастомной полосы прокрутки (для .track-list)
+  if (wrapper) {
+    const canScroll = scrollable.scrollHeight > scrollable.clientHeight;
+    const scrollbar = wrapper.querySelector('.custom-scrollbar') || document.createElement('div');
+    scrollbar.className = 'custom-scrollbar';
+
+    if (canScroll) {
+      wrapper.classList.add('can-scroll');
+      
+      // Вычисляем высоту и позицию полосы прокрутки
+      const scrollHeight = scrollable.scrollHeight;
+      const clientHeight = scrollable.clientHeight;
+      const scrollTop = scrollable.scrollTop;
+
+      const thumbHeight = (clientHeight / scrollHeight) * clientHeight;
+      const maxTop = clientHeight - thumbHeight;
+      const scrollRatio = scrollTop / (scrollHeight - clientHeight);
+      const thumbTop = scrollRatio * maxTop;
+
+      // Применяем стили напрямую
+      scrollbar.style.height = `${thumbHeight}px`;
+      scrollbar.style.top = `${thumbTop}px`;
+      scrollbar.style.position = 'absolute';
+      scrollbar.style.left = '0';
+      scrollbar.style.width = '6px';
+      scrollbar.style.background = 'rgba(255, 255, 255, 0.5)';
+      scrollbar.style.borderRadius = '3px';
+      scrollbar.style.transition = 'background 0.3s';
+
+      if (!wrapper.contains(scrollbar)) {
+        wrapper.appendChild(scrollbar);
+      }
+    } else {
+      wrapper.classList.remove('can-scroll');
+      if (wrapper.contains(scrollbar)) {
+        wrapper.removeChild(scrollbar);
+      }
+    }
+  }
+}
+
+// Применяем для текстов песен
+const lyricsContainer = document.querySelector('#lyrics p');
+if (lyricsContainer) {
+  const upButtonLyrics = document.querySelector('#lyrics .scroll-up');
+  const downButtonLyrics = document.querySelector('#lyrics .scroll-down');
+  
+  lyricsContainer.addEventListener('scroll', () => {
+    updateScrollButtons(lyricsContainer, upButtonLyrics, downButtonLyrics);
+  });
+  updateScrollButtons(lyricsContainer, upButtonLyrics, downButtonLyrics); // Инициализация
+}
+
+// Применяем для списка треков
+const trackListScrollable = document.querySelector('.track-list');
+if (trackListScrollable) {
+  const upButtonTracks = document.querySelector('.track-list-wrapper .scroll-up');
+  const downButtonTracks = document.querySelector('.track-list-wrapper .scroll-down');
+  const trackListWrapper = document.querySelector('.track-list-wrapper');
+  
+  trackListScrollable.addEventListener('scroll', () => {
+    updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
+  });
+
+  // Инициализация
+  updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
+
+  // Дополнительная проверка при загрузке
+  window.addEventListener('load', () => {
+    updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
+  });
+
+  // Проверка при изменении размера окна
+  window.addEventListener('resize', () => {
+    updateScrollButtons(trackListScrollable, upButtonTracks, downButtonTracks, trackListWrapper);
+  });
+}
