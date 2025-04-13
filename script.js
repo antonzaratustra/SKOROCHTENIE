@@ -421,6 +421,26 @@ trackList.forEach(item => {
     if (lyricsContainer) {
       lyricsContainer.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    
+    // Прокрутка до плеера на мобильных устройствах
+    if (window.innerWidth <= 767) {
+      // Получаем элемент плеера
+      const playerElement = document.querySelector('.player-container');
+      // Прокручиваем до плеера с плавной анимацией
+      if (playerElement) {
+        // Вычисляем позицию для прокрутки (центрирование плеера по вертикали)
+        const playerRect = playerElement.getBoundingClientRect();
+        const playerHeight = playerRect.height;
+        const windowHeight = window.innerHeight;
+        const scrollTo = window.pageYOffset + playerRect.top - (windowHeight / 2) + (playerHeight / 2);
+        
+        // Выполняем плавную прокрутку
+        window.scrollTo({
+          top: scrollTo,
+          behavior: 'smooth'
+        });
+      }
+    }
   });
 });
 

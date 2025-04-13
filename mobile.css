@@ -1,0 +1,190 @@
+/* Мобильные стили для SKOROCHTENIE */
+
+/* Скрываем мобильные элементы на десктопе */
+@media screen and (min-width: 768px) {
+  .mobile-header, .mobile-footer {
+    display: none !important;
+  }
+}
+
+/* Применяем стили только для мобильных устройств */
+@media screen and (max-width: 767px) {
+  /* Общие стили */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  /* Скрываем верхнюю и нижнюю полосу на мобильных устройствах */
+  .top-bar, .bottom-bar {
+    display: none !important;
+  }
+  
+  /* Создаем новые статичные элементы для мобильных устройств */
+  .mobile-header, .mobile-footer {
+    width: 100%;
+    padding: 20px 20px;
+    font-size: 12px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-size: 10px;
+    z-index: 100;
+  }
+  
+  .mobile-header {
+    margin-bottom: 0;
+    order: 1; /* Первый элемент */
+    padding-left: 10px;
+    
+  }
+  
+  .mobile-footer {
+    display: none !important; /* Скрываем mobile-footer на мобильных устройствах */
+    margin-top: 20px;
+    order: 10; /* Последний элемент - перемещаем в самый конец */
+  }
+  
+  /* Убираем ховер-эффекты для полос, так как они теперь всегда видны */
+  .track-list:hover ~ .top-bar,
+  .track-list:hover ~ .bottom-bar,
+  .player-container:hover ~ .top-bar,
+  .player-container:hover ~ .bottom-bar {
+    transform: none;
+  }
+  
+  /* Изменяем структуру основного контейнера */
+  .video-section {
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  /* Фоновое видео */
+  .video-wrapper {
+    display: none; /* Скрываем видео-враппер на мобильных устройствах */
+  }
+  
+  /* Изменяем структуру UI */
+  .overlay-ui {
+    flex-direction: column;
+    padding: 20px 10px;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 180vh;
+    z-index: 20;
+  }
+  
+  /* Левая панель */
+  .left-panel {
+    margin-right: 0;
+    width: 100%;
+    order: 4; /* Меняем порядок отображения - после бегущей строки */
+    margin-top: 20px;
+  }
+  
+  /* Обложка альбома */
+  .album-cover {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+    order: 4; /* Четвертый элемент после бегущей строки */
+  }
+  
+  /* Правая панель */
+  .right-panel {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    order: 6; /* Меняем порядок отображения - плеер будет после списка треков */
+  }
+  
+  /* Логотип и заголовок */
+  .logo-title {
+    margin-top: 0;
+    order: 2; /* Второй элемент после предупреждения */
+    width: 100%;
+  }
+  
+  .logo-title img {
+    width: 200px;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .logo-title h1 {
+    font-size: 36px;
+  }
+  
+  /* Плеер */
+  .player-container {
+    margin-top: 20px;
+    width: 100%;
+    order: 6;
+  }
+  
+  /* Скрываем псевдоэлементы before и after у блока плеера на мобильном */
+  .player-container::before,
+  .player-container::after {
+    display: none !important;
+  }
+  
+  /* Телевизор */
+  .tv-overlay {
+    display: none; /* Скрываем изображение телевизора на мобильных */
+  }
+  
+  /* Бегущая строка */
+  .marquee {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    order: 5; /* Пятый элемент после обложки альбома */
+    width: 100%;
+  }
+  
+  .marquee span {
+    font-size: 36px;
+  }
+  
+  /* Сетка букв */
+  .letter-grid {
+    font-size: 8vw;
+    gap: 10vw;
+    position: absolute;
+    top: auto;
+    z-index: 25;
+    /* Позиционируем по центру блока с треками */
+    bottom: 40%;
+  }
+  
+  /* Вкладки плеера */
+  .tabs {
+    max-width: 100%;
+  }
+  
+  .tab-btn {
+    font-size: 14px;
+  }
+  
+  .track-title {
+    font-size: 14px;
+  }
+  
+  /* Список треков */
+  .track-list-wrapper {
+    max-height: none;
+    margin-bottom: 20px;
+    order: 5; /* Пятый элемент после обложки альбома */
+  }
+  
+  .track-list li {
+    padding: 8px 0 8px 10px;
+    font-size: 14px;
+    text-align: center; /* Центрируем текст названий треков */
+  }
+}
