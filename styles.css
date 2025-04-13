@@ -628,7 +628,7 @@ html, body {
     left: 50%;
     transform: translate(-50%, -47%);
     z-index: 17;
-    width: 185%;
+    width: 184%;
     max-width: 1500px;
     height: auto;
     pointer-events: none;
