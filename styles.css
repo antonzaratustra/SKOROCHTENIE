@@ -535,18 +535,18 @@ html, body {
   }
   
   #video::before {
-    top: 10px;
+    top: 0px;
     left: 50%;
     transform: translateX(-50%);
-    width: 2px;
+    width: 4px;
     height: 20px;
   }
   
   #video::after {
-    bottom: 10px;
+    bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
-    width: 2px;
+    width: 4px;
     height: 20px;
   }
   
@@ -620,3 +620,37 @@ html, body {
     pointer-events: none;
     z-index: 10;
   }
+
+  .tv-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -47%);
+    z-index: 17;
+    width: 185%;
+    max-width: 1500px;
+    height: auto; /* Сохраняет пропорции */
+    pointer-events: none;
+  }
+
+
+  .player-container::before {
+    content: '';
+    position: absolute;
+    top: -50px; /* Поднимаем полосу выше .tabs, подбери значение, чтобы закрыть пробел */
+    left: 0;
+    width: 100%;
+    height: 50px; /* Высота полосы, подбери под размер пробела */
+    background: white;
+    z-index: 16; /* Чуть ниже .tv-overlay, чтобы не перекрывать телевизор */
+  }
+
+a[href="https://t.me/antonzaratustra"] {
+  color: red;
+  text-decoration: none;
+}
+
+a[href="https://t.me/antonzaratustra"]:visited {
+  color: red;
+  text-decoration: none;
+}

@@ -312,7 +312,7 @@ function createFallingLetter(char, x, y) {
       }
       letters.splice(index, 1);
     }
-  }, 3000);
+  }, 10000);
 
   Matter.Events.on(engine, 'afterUpdate', () => {
     letters = letters.filter(letter => {
@@ -516,7 +516,7 @@ if (lyricsContainer) {
   
   lyricsContainer.addEventListener('scroll', () => {
     updateScrollButtons(lyricsContainer, upButtonLyrics, downButtonLyrics);
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.2) {
       dropRandomLetter();
     }
   });
