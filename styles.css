@@ -157,7 +157,7 @@ html, body {
     display: grid; /* Возвращаем видимость */
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    gap: 12vw;
+    gap: 13.5vw;
     text-align: center;
     z-index: 15; /* Ниже .right-panel, чтобы не перекрывать плеер */
     pointer-events: none; /* Чтобы буквы не мешали взаимодействию */
@@ -401,7 +401,7 @@ html, body {
   /* Центрируем .right-panel */
   .right-panel {
     position: absolute;
-    top: 50%;
+    top: 40%; /* Adjusted to move higher */
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -419,7 +419,7 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-top: 20px;
     width: 100%;
     text-align: center;
   }
@@ -440,7 +440,8 @@ html, body {
     max-width: 640px;
     margin: 0;
     position: relative;
-  }
+    margin-top: 150px; /* Добавляем отступ сверху */
+}
   
   .tabs {
     display: flex;
@@ -623,13 +624,13 @@ html, body {
 
   .tv-overlay {
     position: absolute;
-    top: 50%;
+    top: 65%; /* Увеличиваем значение top */
     left: 50%;
     transform: translate(-50%, -47%);
     z-index: 17;
     width: 185%;
     max-width: 1500px;
-    height: auto; /* Сохраняет пропорции */
+    height: auto;
     pointer-events: none;
   }
 
@@ -637,7 +638,18 @@ html, body {
   .player-container::before {
     content: '';
     position: absolute;
-    top: -50px; /* Поднимаем полосу выше .tabs, подбери значение, чтобы закрыть пробел */
+    top: -49px; /* Поднимаем полосу выше .tabs, подбери значение, чтобы закрыть пробел */
+    left: 0;
+    width: 100%;
+    height: 50px; /* Высота полосы, подбери под размер пробела */
+    background: white;
+    z-index: 16; /* Чуть ниже .tv-overlay, чтобы не перекрывать телевизор */
+  }
+
+  .player-container::after {
+    content: '';
+    position: absolute;
+    top: 400px; /* Поднимаем полосу выше .tabs, подбери значение, чтобы закрыть пробел */
     left: 0;
     width: 100%;
     height: 50px; /* Высота полосы, подбери под размер пробела */
